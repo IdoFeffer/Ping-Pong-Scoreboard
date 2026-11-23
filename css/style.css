@@ -475,6 +475,13 @@ h1 {
   font-weight: var(--fw-bold);
   font-size: var(--fs-caption);
   white-space: nowrap;
+  direction: var(--text-dir);
+}
+
+/* Hebrew: Orbitron has no Hebrew letters, so use the text font */
+:root[lang="he"] .mid {
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
 }
 
 .mid.deuce {

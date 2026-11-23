@@ -54,18 +54,21 @@
       player: 'שחקן',
       playerName: 'שם שחקן',
       color: 'צבע',
-      firstServe: 'מגיש ראשון',
+      firstServe: 'הגשה ראשונה',
       settings: 'הגדרות',
       fullscreen: 'מסך מלא',
       swap: 'החלפת צדדים',
       undo: 'ביטול נקודה אחרונה',
       rematch: 'משחק חוזר',
       toSettings: 'להגדרות',
-      serving: 'מגיש',
+      serving: 'הגשה',
       wins: 'ניצחונות',
       deuce: 'דיוס',
       advantage: 'יתרון',
       won: (name) => `${name} ניצח`,
+      // Game rules in the center label, e.g. "עד 11 · 2 הגשות"
+      rules: (target, every) =>
+        `עד ${target} · ${every === 1 ? 'הגשה אחת' : `${every} הגשות`}`,
     },
     en: {
       title: 'Ping Pong Scoreboard',
@@ -77,18 +80,20 @@
       player: 'Player',
       playerName: 'Player name',
       color: 'Color',
-      firstServe: 'Serves first',
+      firstServe: 'First serve',
       settings: 'Settings',
       fullscreen: 'Fullscreen',
       swap: 'Swap sides',
       undo: 'Undo last point',
       rematch: 'Rematch',
       toSettings: 'Settings',
-      serving: 'Serving',
+      serving: 'Serve',
       wins: 'Wins',
       deuce: 'Deuce',
       advantage: 'Advantage',
       won: (name) => `${name} wins`,
+      // Game rules in the center label, e.g. "TO 11 · 2 SERVES"
+      rules: (target, every) => `TO ${target} · ${every} SERVE${every > 1 ? 'S' : ''}`,
     },
   }
 
@@ -359,7 +364,7 @@
     const totalGames = game.wins[0] + game.wins[1]
     half.querySelector('.gw').textContent = totalGames ? `${t('wins')}: ${game.wins[p]}` : ''
 
-    // "Serving" badge, e.g. "מגיש · 1/2" / "Serving · 1/2"
+    // "Serve" badge, e.g. "הגשה · 1/2" / "Serve · 1/2"
     const badge = half.querySelector('.srv')
     badge.classList.toggle('on', !gameOver && server.player === p)
     badge.querySelector('.st').textContent =
@@ -379,8 +384,7 @@
         a === b ? t('deuce') : `${t('deuce')} · ${t('advantage')}: ${cfg.names[a > b ? 0 : 1]}`
     } else {
       label.className = 'mid'
-      const plural = cfg.every > 1 ? 'S' : ''
-      label.textContent = `TO ${cfg.target} · ${cfg.every} SERVE${plural}`
+      label.textContent = t('rules')(cfg.target, cfg.every)
     }
   }
 

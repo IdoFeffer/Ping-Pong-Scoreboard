@@ -25,7 +25,7 @@ Settings are saved in the browser and stay after closing and reopening the page.
 
 **Game screen**
 - Tap a half of the screen to give a point to the player shown there.
-- The "Serving" badge shows who serves now, and which serve of the turn it is (e.g. 1/2).
+- The "Serve" badge shows who serves now, and which serve of the turn it is (e.g. 1/2).
 - At deuce (10:10 in a game to 11):
   - An amber label shows "Deuce" or "Advantage".
   - The serve switches after every point.
