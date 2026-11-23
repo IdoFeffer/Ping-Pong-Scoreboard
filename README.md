@@ -1,74 +1,74 @@
-# 🏓 לוח ניקוד פינג פונג
+# 🏓 Ping Pong Scoreboard
 
-לוח ניקוד לטלפון, לטאבלט או למחשב.
-מניחים את המכשיר ליד השולחן ולוחצים על חצי המסך של השחקן שזכה בנקודה.
+A scoreboard for your phone, tablet or computer.
+Put the device next to the table and tap the half of the screen belonging to the player who won the point.
 
-## הפעלה
+## Getting started
 
-אין צורך בהתקנה או בשרת. פותחים את `index.html` בדפדפן.
+No installation or server needed. Just open `index.html` in a browser.
 
-> הגופנים (Orbitron ו־Rubik) נטענים מ־Google Fonts, לכן בלי אינטרנט יוצג גופן ברירת מחדל.
+> The fonts (Orbitron and Rubik) load from Google Fonts, so without an internet connection a default font is shown.
 
-## מה אפשר לעשות
+## Features
 
-**במסך ההגדרות**
-- לבחור שפה בכפתור הקטן משמאל לכותרת: **עב** או **EN**.
-  - הכיוון של הדף מתהפך בהתאם (מימין לשמאל או משמאל לימין).
-  - שמות ברירת המחדל מתורגמים ("שחקן 1" ↔ "Player 1"). שמות שהקלדת לא משתנים.
-- לבחור עד כמה משחקים: 11 או 21.
-- לבחור כל כמה נקודות מתחלפת ההגשה: 1 עד 5.
-- לתת שם לכל שחקן ולבחור לו צבע מתוך 8.
-  - אם בוחרים צבע שהשחקן השני כבר תפס, השניים מתחלפים בצבעים.
-- לבחור מי מגיש ראשון.
+**Setup screen**
+- Choose the language with the small toggle to the left of the title: **עב** (Hebrew) or **EN** (English).
+  - The page direction flips to match (right-to-left or left-to-right).
+  - Default names are translated ("שחקן 1" ↔ "Player 1"). Names you typed stay as they are.
+- Choose how many points a game is played to: 11 or 21.
+- Choose how often the serve switches: every 1 to 5 points.
+- Give each player a name and pick one of 8 colors.
+  - If you pick a color the other player already has, the two players swap colors.
+- Choose who serves first.
 
-ההגדרות נשמרות בדפדפן, ונשארות גם אחרי סגירה ופתיחה מחדש.
+Settings are saved in the browser and stay after closing and reopening the page.
 
-**במסך המשחק**
-- לחיצה על חצי מסך מוסיפה נקודה לשחקן שבחצי הזה.
-- התגית "מגיש" מראה מי מגיש עכשיו, ואיזו הגשה זו בסבב (למשל 1/2).
-- בדיוס (10:10 במשחק עד 11):
-  - מופיעה תווית כתומה עם "דיוס" או "יתרון".
-  - ההגשה מתחלפת אחרי כל נקודה.
-- כדי לנצח צריך להגיע ליעד עם פער של 2 נקודות לפחות.
-- אחרי ניצחון אפשר לבחור:
-  - **משחק חוזר**: השחקן השני מגיש ראשון, ומונה הניצחונות נשמר.
-  - **ביטול נקודה**: מבטל גם את הניצחון.
-  - **הגדרות**.
-- במכשירים שתומכים בזה, המסך לא נכבה במהלך המשחק.
-- בטלפון לאורך השחקנים מוצגים אחד מעל השני, ולרוחב אחד ליד השני.
+**Game screen**
+- Tap a half of the screen to give a point to the player shown there.
+- The "Serving" badge shows who serves now, and which serve of the turn it is (e.g. 1/2).
+- At deuce (10:10 in a game to 11):
+  - An amber label shows "Deuce" or "Advantage".
+  - The serve switches after every point.
+- To win, a player must reach the target with a lead of at least 2 points.
+- After a win you can choose:
+  - **Rematch**: the other player serves first, and the win counter is kept.
+  - **Undo last point**: also cancels the win.
+  - **Settings**.
+- On devices that support it, the screen stays on during a game.
+- On a phone in portrait the players are stacked top and bottom; in landscape they are side by side.
 
-| כפתור | פעולה |
+| Button | Action |
 |---|---|
-| ⚙️ | חזרה להגדרות (המשחק נשמר, ואפשר לחזור אליו) |
-| ⛶ | מסך מלא |
-| ⇄ | החלפת צדדים |
-| ↶ | ביטול הנקודה האחרונה |
+| ⚙️ | Back to settings (the game is kept, and you can return to it) |
+| ⛶ | Fullscreen |
+| ⇄ | Swap sides |
+| ↶ | Undo last point |
 
-**מקלדת**
+**Keyboard**
 
-| מקש | פעולה |
+| Key | Action |
 |---|---|
-| ← | נקודה לשחקן בצד שמאל |
-| → | נקודה לשחקן בצד ימין |
-| Backspace או Z | ביטול נקודה |
+| ← | Point for the player on the left |
+| → | Point for the player on the right |
+| Backspace or Z | Undo last point |
 
-## מבנה הקבצים
+## Project structure
 
 ```
 ping-pong/
-├── index.html          מבנה הדף: מסך הגדרות ומסך משחק
-├── main.js             כל הלוגיקה: ניקוד, הגשה, דיוס, שמירה, כפתורים
+├── index.html          Page structure: setup screen and game screen
+├── main.js             All the logic: scoring, serve, deuce, saving, buttons
 └── css/
-    ├── variables.css   צבעים, גופנים, גדלים, ריווחים, זמני אנימציה
-    └── style.css       עיצוב הרכיבים (משתמש רק במשתנים מ־variables.css)
+    ├── variables.css   Colors, fonts, sizes, spacing, animation timings
+    └── style.css       Component styles (uses only variables from variables.css)
 ```
 
-## שינויים נפוצים
+## Common changes
 
-- **צבעי הממשק, גופנים וגדלים**: ב־`css/variables.css`. ליד כל ערך ב־rem כתוב כמה פיקסלים הוא.
-- **טקסטים ותרגומים**: המילון `TEXT` בראש `main.js`, עם אותם מפתחות בכל שפה.
-  - ב־`index.html` טקסט שמתורגם מסומן ב־`data-i18n="key"`, ו־aria-label שמתורגם ב־`data-i18n-aria="key"`.
-  - כדי להוסיף שפה: מוסיפים אותה ל־`TEXT` ול־`LANGUAGE_LABELS`. אם היא נכתבת מימין לשמאל, מוסיפים אותה גם ל־`RTL_LANGUAGES`.
-- **צבעי השחקנים**: המערך `PALETTE` בראש `main.js`.
-- **אפשרויות "משחק עד" ו"החלפת הגשה"**: `TARGET_OPTIONS` ו־`SERVE_OPTIONS` בראש `main.js`.
-- **משך האפקט "+1"**: `--dur-plus` ב־`variables.css`. כדאי לעדכן גם את `EFFECT_DURATION_MS` ב־`main.js`, כדי שהאלמנט יימחק רק אחרי שהאנימציה מסתיימת.
+- **UI colors, fonts and sizes**: in `css/variables.css`. Each rem value has its pixel equivalent in a comment.
+- **Texts and translations**: the `TEXT` dictionary at the top of `main.js`, with the same keys in every language.
+  - In `index.html`, translated text is marked with `data-i18n="key"`, and a translated aria-label with `data-i18n-aria="key"`.
+  - To add a language: add it to `TEXT` and to `LANGUAGE_LABELS`. If it is written right-to-left, add it to `RTL_LANGUAGES` too.
+- **Player colors**: the `PALETTE` array at the top of `main.js`.
+- **"Play to" and "Switch serve every" options**: `TARGET_OPTIONS` and `SERVE_OPTIONS` at the top of `main.js`.
+- **Length of the "+1" effect**: `--dur-plus` in `variables.css`. Also update `EFFECT_DURATION_MS` in `main.js`, so the element is removed only after the animation ends.
