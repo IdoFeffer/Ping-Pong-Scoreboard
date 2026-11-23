@@ -1,0 +1,133 @@
+/* =====================================================================
+   variables.css: all the design values in one place
+   Change a value here and it updates everywhere.
+   Conversion: 1rem = 16px (the browser default)
+   ===================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* ---------- Colors: base ---------- */
+  --bg: #111114;            /* page background */
+  --panel: #1c1c20;         /* player cards */
+  --panel2: #2a2a2f;        /* selector buttons, "first serve" button */
+  --ink: #f2f2f2;           /* main text */
+  --mute: #a4a4ab;          /* secondary text */
+  --white: #fff;
+  --black: #111;
+
+  /* ---------- Colors: accents ---------- */
+  --amber: #FAC775;         /* deuce */
+  --amberInk: #412402;      /* text on amber */
+  --focus-ring: #fff;       /* keyboard focus outline */
+
+  /* ---------- Colors: inputs and borders ---------- */
+  --input-bg: #111;
+  --input-border: #3a3a40;
+  --ghost-border: #44444a;
+  --win-btn-border: rgba(255, 255, 255, .5);
+
+  /* ---------- Colors: translucent layers on the game screen ---------- */
+  --serve-bg: rgba(255, 255, 255, .22);          /* "serving" badge */
+  --tool-bg: rgba(0, 0, 0, .32);                 /* top bar buttons */
+  --tool-bg-active: rgba(255, 255, 255, .3);     /* button while pressed */
+  --tool-bg-flash: rgba(255, 255, 255, .45);     /* flash after tap */
+  --label-bg: rgba(0, 0, 0, .38);                /* center label */
+  --ripple: rgba(255, 255, 255, .35);            /* ripple on tap */
+  --win-overlay: rgba(8, 8, 10, .85);            /* win screen backdrop */
+
+  /* ---------- Fonts ---------- */
+  --font-display: 'Orbitron', system-ui, sans-serif;  /* digits and headings */
+  --font-body: 'Rubik', system-ui, sans-serif;        /* Hebrew text */
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --fw-black: 900;
+
+  --lh-base: 1.5;
+  --lh-tight: 1.05;
+  --lh-none: 1;
+
+  /* ---------- Font sizes: fixed ---------- */
+  --fs-caption: 0.75rem;    /* 12px  center label */
+  --fs-hint: 0.8125rem;     /* 13px  hints, win counter */
+  --fs-small: 0.875rem;     /* 14px  "first serve", deuce */
+  --fs-control: 0.9375rem;  /* 15px  selector buttons */
+  --fs-base: 1rem;          /* 16px  default text */
+  --fs-button: 1.0625rem;   /* 17px  start button */
+
+  /* ---------- Font sizes: responsive (min, preferred, max) ---------- */
+  --fs-title: clamp(1.375rem, 5vw, 2rem);                         /* 22-32px  */
+  --fs-score: clamp(5.625rem, min(34vw, 62vh), 27.5rem);          /* 90-440px */
+  --fs-score-portrait: clamp(5.625rem, min(46vw, 30vh), 22.5rem); /* 90-360px */
+  --fs-player-name: clamp(1rem, 3.2vmin, 1.625rem);               /* 16-26px  */
+  --fs-serve: clamp(0.8125rem, 2.4vmin, 1.0625rem);               /* 13-17px  */
+  --fs-plus: clamp(1.75rem, 6vmin, 3rem);                         /* 28-48px  */
+  --fs-win-title: clamp(1.625rem, 6vmin, 2.75rem);                /* 26-44px  */
+  --fs-win-score: clamp(2.125rem, 9vmin, 4rem);                   /* 34-64px  */
+
+  /* ---------- Spacing ---------- */
+  --space-3xs: 0.125rem;    /* 2px  */
+  --space-2xs: 0.25rem;     /* 4px  */
+  --space-xs: 0.5rem;       /* 8px  */
+  --space-sm: 0.625rem;     /* 10px */
+  --space-md: 0.75rem;      /* 12px */
+  --space-lg: 0.875rem;     /* 14px */
+  --space-xl: 1.25rem;      /* 20px */
+  --page-gutter: 1rem;      /* 16px  page side padding */
+
+  /* ---------- Border radius ---------- */
+  --radius-2xs: 0.3125rem;  /* 5px  */
+  --radius-xs: 0.4375rem;   /* 7px  */
+  --radius-sm: 0.5rem;      /* 8px  */
+  --radius-md: 0.625rem;    /* 10px */
+  --radius-lg: 0.875rem;    /* 14px */
+  --radius-pill: 999px;     /* fully rounded */
+
+  /* ---------- Border widths (kept in px so they stay crisp) ---------- */
+  --border-thin: 1px;
+  --border-focus: 2px;
+  --border-selected: 3px;
+  --border-accent: 6px;     /* player color stripe on the card */
+
+  /* ---------- Control heights ---------- */
+  --control-h-xs: 1.75rem;  /* 28px  language toggle */
+  --control-w-xs: 2.25rem;  /* 36px  language toggle button width */
+  --control-h-sm: 2.5rem;   /* 40px  selector, "first serve" */
+  --control-h: 2.75rem;     /* 44px  input, icon buttons (minimum touch target) */
+  --control-h-md: 2.875rem; /* 46px  "back to game" button */
+  --control-h-lg: 3rem;     /* 48px  win screen buttons */
+  --control-h-xl: 3.25rem;  /* 52px  start button */
+
+  /* ---------- Element sizes ---------- */
+  --card-max: 35rem;                          /* 560px  setup column width */
+  --paddle-size: clamp(2.375rem, 9vw, 3.375rem); /* 38-54px  paddles in the title */
+  --icon-size: 1.375rem;                      /* 22px  icons in buttons */
+  --swatch-min: 1.875rem;                     /* 30px  color swatch */
+  --ball-size: 0.75rem;                       /* 12px  */
+  --ball-size-serve: 0.8125rem;               /* 13px  ball in "serving" badge */
+  --serve-top: clamp(3.5rem, 11vmin, 5.25rem);  /* 56-84px  "serving" badge position */
+  --serve-top-portrait: 4.125rem;             /* 66px  */
+
+  /* ---------- Motion ---------- */
+  --dur-fast: .12s;         /* button press */
+  --dur-base: .2s;          /* color change in setup */
+  --dur-slow: .3s;          /* game background change */
+  --dur-pop: .22s;          /* score bump */
+  --dur-tap: .35s;          /* button flash */
+  --dur-ripple: .5s;        /* ripple */
+  --dur-plus: .7s;          /* "+1" floating up (JS removes it after 750ms) */
+
+  /* ---------- Layers (z-index) ---------- */
+  --z-bar: 3;               /* top bar */
+  --z-overlay: 5;           /* win screen */
+
+  /* ---------- Text direction (Hebrew by default) ---------- */
+  --text-dir: rtl;
+}
+
+/* English: main.js sets <html dir="ltr"> */
+:root[dir="ltr"] {
+  --text-dir: ltr;
+}

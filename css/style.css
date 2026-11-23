@@ -1,0 +1,627 @@
+/* =====================================================================
+   style.css: the ping pong scoreboard rules
+   All values (colors, sizes, fonts) live in variables.css
+
+   Contents:
+     1. Base
+     2. Setup screen: title and paddles
+     3. Setup screen: settings rows
+     4. Setup screen: player cards
+     5. Setup screen: buttons
+     6. Game screen: player halves
+     7. Game screen: top bar
+     8. Game screen: win overlay
+     9. Tap effects
+    10. Portrait layout
+    11. Reduced motion
+   ===================================================================== */
+
+
+/* ---------- 1. Base ---------- */
+
+* {
+  box-sizing: border-box;
+  min-width: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: var(--fs-base) / var(--lh-base) var(--font-body);
+  overflow: hidden;
+  user-select: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+
+button:focus-visible {
+  outline: var(--border-focus) solid var(--focus-ring);
+  outline-offset: var(--border-focus);
+}
+
+/* Each screen fills the window; only the one with .on is shown */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+}
+
+.screen.on {
+  display: flex;
+}
+
+
+/* ---------- 2. Setup screen: title and paddles ---------- */
+
+#setup {
+  overflow-y: auto;
+  justify-content: center;
+  padding: max(var(--space-xl), env(safe-area-inset-top)) var(--page-gutter) 1.5rem;
+}
+
+.card {
+  width: 100%;
+  max-width: var(--card-max);
+  margin: auto 0;
+}
+
+/* Top row: three columns [language | title | empty].
+   The side columns are equal, so the title stays centered. */
+.top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0 0 1.375rem;
+  direction: ltr; /* language toggle stays on the left in both languages */
+}
+
+h1 {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(var(--space-sm), 3vw, var(--space-xl));
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-title);
+  line-height: var(--lh-tight);
+  letter-spacing: .02em;
+  direction: ltr;
+}
+
+/* Paddle icons next to the title */
+.pad {
+  flex: none;
+  width: var(--paddle-size);
+  height: auto;
+  transition: transform var(--dur-base);
+}
+
+.pad .rub {
+  transition: fill var(--dur-base);
+}
+
+.pad.l {
+  transform: rotate(-25deg);
+}
+
+.pad.r {
+  transform: scaleX(-1) rotate(-25deg);
+}
+
+
+/* ---------- 3. Setup screen: settings rows ---------- */
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.lab {
+  font-size: var(--fs-base);
+  color: var(--mute);
+}
+
+/* Segmented selector (play to / serve every) */
+.seg {
+  display: flex;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs);
+  background: var(--panel2);
+  border-radius: var(--radius-md);
+  direction: ltr;
+}
+
+.seg button {
+  min-width: var(--control-h);
+  height: var(--control-h-sm);
+  padding: 0 var(--space-md);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-control);
+  color: var(--mute);
+}
+
+.seg button.on {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* Language toggle: a small version of the selector, next to the title */
+.seg.lang {
+  justify-self: start;   /* left edge of its column */
+  gap: var(--space-3xs);
+  padding: var(--space-3xs);
+  border-radius: var(--radius-sm);
+}
+
+/* Narrow phones: no room beside the title, so the toggle sits
+   on a small line above it (still on the left) */
+@media (max-width: 30rem) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    grid-column: 1;
+  }
+}
+
+.seg.lang button {
+  min-width: var(--control-w-xs);
+  height: var(--control-h-xs);
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-2xs);
+  font-family: var(--font-body);   /* letters, not digits */
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-caption);
+}
+
+
+/* ---------- 4. Setup screen: player cards ---------- */
+
+.players {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin: 1.125rem 0;
+}
+
+/* --c is the player color, set by script.js */
+.pc {
+  padding: var(--space-md);
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  border-top: var(--border-accent) solid var(--c);
+  transition: border-color var(--dur-base);
+}
+
+.pc input {
+  width: 100%;
+  height: var(--control-h);
+  margin-bottom: var(--space-sm);
+  padding: 0 var(--space-sm);
+  background: var(--input-bg);
+  color: var(--white);
+  border: var(--border-thin) solid var(--input-border);
+  border-radius: var(--radius-sm);
+  font: var(--fs-base) var(--font-body);
+}
+
+.pc input:focus {
+  outline: var(--border-focus) solid var(--c);
+  border-color: transparent;
+}
+
+/* Color swatches */
+.sw {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-xs);
+}
+
+.sw button {
+  position: relative;
+  aspect-ratio: 1;
+  min-height: var(--swatch-min);
+  border-radius: var(--radius-sm);
+}
+
+.sw button.sel {
+  outline: var(--border-selected) solid var(--white);
+  outline-offset: var(--border-focus);
+}
+
+/* Color already taken by the other player */
+.sw button.taken {
+  opacity: .25;
+}
+
+/* "First serve" button */
+.first {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  width: 100%;
+  height: var(--control-h-sm);
+  margin-top: var(--space-md);
+  background: var(--panel2);
+  color: var(--mute);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+}
+
+.first.on {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* Small ball (takes the text color) */
+.ball {
+  display: inline-block;
+  flex: none;
+  width: var(--ball-size);
+  height: var(--ball-size);
+  border-radius: 50%;
+  background: currentColor;
+}
+
+
+/* ---------- 5. Setup screen: buttons ---------- */
+
+/* "Start game" */
+.go {
+  width: 100%;
+  height: var(--control-h-xl);
+  margin-top: 0.375rem;
+  background: var(--white);
+  color: var(--black);
+  border-radius: var(--radius-md);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-button);
+}
+
+/* "Back to current game" */
+.ghost {
+  width: 100%;
+  height: var(--control-h-md);
+  margin-top: var(--space-sm);
+  border: var(--border-thin) solid var(--ghost-border);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-control);
+}
+
+.hint {
+  margin-top: var(--space-lg);
+  font-size: var(--fs-hint);
+  color: var(--mute);
+  text-align: center;
+}
+
+
+/* ---------- 6. Game screen: player halves ---------- */
+
+#game {
+  flex-direction: row;
+  direction: ltr;
+}
+
+/* Each half is one player; background color is set by script.js */
+.half {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--white);
+  transition: background-color var(--dur-slow);
+}
+
+.half:active {
+  filter: brightness(1.08);
+}
+
+/* Big score digits */
+.num {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-score);
+  line-height: var(--lh-none);
+  font-variant-numeric: tabular-nums;
+}
+
+.num.pop {
+  animation: pop var(--dur-pop) ease-out;
+}
+
+@keyframes pop {
+  0%   { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* Player name */
+.nm {
+  margin-top: 1.5vmin;
+  font-size: var(--fs-player-name);
+  font-weight: var(--fw-medium);
+  direction: var(--text-dir);
+}
+
+/* Games won */
+.gw {
+  margin-top: var(--space-2xs);
+  font-family: var(--font-display);
+  font-size: var(--fs-hint);
+  opacity: .75;
+  direction: var(--text-dir);
+}
+
+/* "Serving" badge */
+.srv {
+  position: absolute;
+  top: var(--serve-top);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.375rem var(--space-lg);
+  background: var(--serve-bg);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-serve);
+  direction: var(--text-dir);
+  visibility: hidden;
+}
+
+.srv.on {
+  visibility: visible;
+}
+
+.srv .ball {
+  width: var(--ball-size-serve);
+  height: var(--ball-size-serve);
+  background: var(--white);
+}
+
+
+/* ---------- 7. Game screen: top bar ---------- */
+
+.bar {
+  position: absolute;
+  top: max(var(--space-sm), env(safe-area-inset-top));
+  left: 0;
+  right: 0;
+  z-index: var(--z-bar);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 max(var(--space-sm), env(safe-area-inset-left));
+  pointer-events: none;   /* taps pass through to the halves... */
+}
+
+.bar > * {
+  pointer-events: auto;   /* ...except on the buttons themselves */
+}
+
+.tools {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+/* Icon button (settings, fullscreen, swap, undo) */
+.ib {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  background: var(--tool-bg);
+  border-radius: var(--radius-md);
+  transition: transform var(--dur-fast), background-color var(--dur-fast);
+}
+
+.ib:active {
+  transform: scale(.86);
+  background: var(--tool-bg-active);
+}
+
+.ib.tap {
+  animation: tap var(--dur-tap) ease-out;
+}
+
+@keyframes tap {
+  0%   { transform: scale(.8); background: var(--tool-bg-flash); }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); background: var(--tool-bg); }
+}
+
+.ib svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Center label (game rules / deuce) */
+.mid {
+  padding: 0.4375rem var(--space-lg);
+  background: var(--label-bg);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+}
+
+.mid.deuce {
+  background: var(--amber);
+  color: var(--amberInk);
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  direction: var(--text-dir);
+}
+
+
+/* ---------- 8. Game screen: win overlay ---------- */
+
+.win {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  background: var(--win-overlay);
+  text-align: center;
+  direction: var(--text-dir);
+}
+
+.win.on {
+  display: flex;
+}
+
+.win h2 {
+  margin: 0.375rem 0 var(--space-2xs);
+  font-size: var(--fs-win-title);
+  font-weight: var(--fw-bold);
+}
+
+/* Final score */
+.win .fs {
+  margin-bottom: var(--space-xl);
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-win-score);
+  direction: ltr;
+}
+
+.win .acts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.win .acts button {
+  height: var(--control-h-lg);
+  padding: 0 1.375rem;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-base);
+}
+
+/* Primary button */
+.win .p {
+  background: var(--white);
+  color: var(--black);
+  font-weight: var(--fw-bold);
+}
+
+/* Secondary button */
+.win .s {
+  border: var(--border-thin) solid var(--win-btn-border);
+}
+
+
+/* ---------- 9. Tap effects ---------- */
+
+/* Ripple spreading from the tap point */
+.rip {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--ripple);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: rip var(--dur-ripple) ease-out forwards;
+}
+
+@keyframes rip {
+  to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+/* "+1" floating up */
+.plus {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-plus);
+  color: var(--white);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: plus var(--dur-plus) ease-out forwards;
+}
+
+@keyframes plus {
+  to { transform: translate(-50%, -160%); opacity: 0; }
+}
+
+
+/* ---------- 10. Portrait layout: players stacked top and bottom ---------- */
+
+@media (orientation: portrait) {
+  #game {
+    flex-direction: column;
+  }
+
+  .num {
+    font-size: var(--fs-score-portrait);
+  }
+
+  .srv {
+    top: auto;
+    bottom: var(--space-lg);
+  }
+
+  .half:first-child .srv {
+    top: var(--serve-top-portrait);
+    bottom: auto;
+  }
+}
+
+
+/* ---------- 11. Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .num.pop,
+  .ib.tap,
+  .rip,
+  .plus {
+    animation: none;
+  }
+
+  .rip,
+  .plus {
+    display: none;
+  }
+
+  .half,
+  .pc,
+  .ib {
+    transition: none;
+  }
+}

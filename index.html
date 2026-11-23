@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!--
+  Ping pong scoreboard
+
+  The page has two screens. Only one is shown at a time (class "on"):
+    1. #setup: game settings and players
+    2. #game:  the scoreboard itself
+
+  Many elements here start empty and are filled by main.js.
+  Their ids are used by main.js, so don't rename them without updating it.
+
+  Language (Hebrew / English):
+    data-i18n="key"       main.js replaces the element's text
+    data-i18n-aria="key"  main.js replaces the aria-label
+  The keys are in the TEXT dictionary at the top of main.js.
+  The Hebrew written here is just the default before main.js runs.
+-->
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <!-- viewport-fit=cover: use the whole screen on phones with a notch -->
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>לוח ניקוד פינג פונג</title>
+
+    <!-- Fonts: Orbitron for digits and headings, Rubik for Hebrew text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rubik:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles: variables first, then the rules that use them -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- =============================================================
+         Screen 1: Setup
+         ============================================================= -->
+    <section id="setup" class="screen on">
+      <div class="card">
+        <!-- Top row: small language toggle on the left, title in the center -->
+        <header class="top">
+          <!-- Language toggle (עב / EN). The buttons are built by main.js. -->
+          <div class="seg lang" id="segLang" aria-label="שפה" data-i18n-aria="language"></div>
+
+          <!-- Title with two paddles.
+               The rubber colors (#rub0, #rub1) follow the players' colors. -->
+          <h1>
+            <!-- Left paddle: player 2's color -->
+            <svg class="pad l" viewBox="0 0 40 60" aria-hidden="true">
+              <rect x="16" y="34" width="8" height="22" rx="3" fill="#C9A06A" /> <!-- handle -->
+              <rect x="16" y="34" width="8" height="6" fill="#A57B45" />         <!-- handle shadow -->
+              <circle cx="20" cy="20" r="18" fill="#5a3d1f" />                   <!-- wood edge -->
+              <circle class="rub" id="rub1" cx="20" cy="20" r="16.5" fill="#A32D2D" /> <!-- rubber -->
+              <ellipse cx="14" cy="13" rx="5" ry="3" fill="#fff" opacity=".18" />  <!-- shine -->
+            </svg>
+
+            <span>PING PONG</span>
+
+            <!-- Right paddle: player 1's color (mirrored in CSS) -->
+            <svg class="pad r" viewBox="0 0 40 60" aria-hidden="true">
+              <rect x="16" y="34" width="8" height="22" rx="3" fill="#C9A06A" />
+              <rect x="16" y="34" width="8" height="6" fill="#A57B45" />
+              <circle cx="20" cy="20" r="18" fill="#5a3d1f" />
+              <circle class="rub" id="rub0" cx="20" cy="20" r="16.5" fill="#185FA5" />
+              <ellipse cx="14" cy="13" rx="5" ry="3" fill="#fff" opacity=".18" />
+            </svg>
+          </h1>
+        </header>
+
+        <!-- Settings rows. The option buttons are built by main.js. -->
+        <div class="row">
+          <span class="lab" data-i18n="playTo">משחק עד</span>
+          <div class="seg" id="segTarget"></div> <!-- 11 / 21 -->
+        </div>
+        <div class="row">
+          <span class="lab" data-i18n="serveEvery">החלפת הגשה כל</span>
+          <div class="seg" id="segEvery"></div> <!-- 1 to 5 -->
+        </div>
+
+        <!-- Two player cards (name, color, first serve). Built by main.js. -->
+        <div class="players" id="players"></div>
+
+        <button class="go" id="start" data-i18n="start">התחל משחק</button>
+        <!-- Shown only when a game is in progress -->
+        <button class="ghost" id="resume" data-i18n="resume" hidden>חזור למשחק הנוכחי</button>
+      </div>
+    </section>
+
+    <!-- =============================================================
+         Screen 2: Game
+         ============================================================= -->
+    <section id="game" class="screen">
+      <!-- Two halves, one per player. A tap on a half = a point.
+           Landscape: side by side. Portrait: top and bottom.
+           Each half contains:
+             .srv  "serving" badge (shown only for the server)
+             .num  the score
+             .nm   player name
+             .gw   games won -->
+      <div class="half" id="h0">
+        <span class="srv">
+          <span class="ball"></span>
+          <span class="st"></span>
+        </span>
+        <span class="num">0</span>
+        <span class="nm"></span>
+        <span class="gw"></span>
+      </div>
+
+      <div class="half" id="h1">
+        <span class="srv">
+          <span class="ball"></span>
+          <span class="st"></span>
+        </span>
+        <span class="num">0</span>
+        <span class="nm"></span>
+        <span class="gw"></span>
+      </div>
+
+      <!-- Top bar: tools on the sides, label in the middle -->
+      <div class="bar">
+        <div class="tools">
+          <!-- Settings (gear icon) -->
+          <button class="ib" id="bSet" aria-label="הגדרות" data-i18n-aria="settings">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"
+              />
+            </svg>
+          </button>
+
+          <!-- Fullscreen (four corners icon) -->
+          <button class="ib" id="bFull" aria-label="מסך מלא" data-i18n-aria="fullscreen">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Middle label: game rules, or deuce / advantage. Filled by main.js. -->
+        <span class="mid" id="mid"></span>
+
+        <div class="tools">
+          <!-- Swap sides (two arrows icon) -->
+          <button class="ib" id="bSwap" aria-label="החלפת צדדים" data-i18n-aria="swap">
+            <svg viewBox="0 0 24 24">
+              <path d="M7 7h13l-4-4M17 17H4l4 4" />
+            </svg>
+          </button>
+
+          <!-- Undo last point (back arrow icon) -->
+          <button class="ib" id="bUndo" aria-label="ביטול נקודה אחרונה" data-i18n-aria="undo">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 14 4 9l5-5" />
+              <path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Win overlay: covers the game screen when someone wins -->
+      <div class="win" id="win">
+        <!-- Trophy icon (amber, same as --amber in variables.css) -->
+        <svg
+          viewBox="0 0 24 24"
+          width="44"
+          height="44"
+          fill="none"
+          stroke="#FAC775"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z" />
+          <path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3" />
+        </svg>
+
+        <h2 id="wName"></h2>                   <!-- "<name> ניצח" / "<name> wins" -->
+        <div class="fs" id="wScore"></div>     <!-- final score, e.g. 11 : 7 -->
+
+        <div class="acts">
+          <button class="p" id="bAgain" data-i18n="rematch">משחק חוזר</button>
+          <button class="s" id="bUndoWin" data-i18n="undo">ביטול נקודה אחרונה</button>
+          <button class="s" id="bToSet" data-i18n="toSettings">להגדרות</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- The logic. Loaded last, so all the elements above already exist. -->
+    <script src="main.js"></script>
+  </body>
+</html>
