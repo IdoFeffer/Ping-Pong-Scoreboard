@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#262a38"/><stop offset="1" stop-color="#0b0b0f"/></linearGradient>
+    <radialGradient id="glowB"><stop offset="0" stop-color="#2f8fe8" stop-opacity=".6"/><stop offset="1" stop-color="#2f8fe8" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowR"><stop offset="0" stop-color="#e84545" stop-opacity=".55"/><stop offset="1" stop-color="#e84545" stop-opacity="0"/></radialGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3c9bf0"/><stop offset="1" stop-color="#124f8c"/></linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ee5552"/><stop offset="1" stop-color="#8f2020"/></linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e6bf87"/><stop offset=".5" stop-color="#cfa066"/><stop offset="1" stop-color="#95693a"/></linearGradient>
+    <radialGradient id="ball" cx=".36" cy=".32" r=".75"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#f4f1ea"/><stop offset="1" stop-color="#b9b2a6"/></radialGradient>
+    <g id="wooden">
+      <path d="M-100 -175 Q-46 -125 -46 -70 L-54 235 Q-54 264 -26 264 L26 264 Q54 264 54 235 L46 -70 Q46 -125 100 -175Z" fill="url(#wood)"/>
+      <circle cy="-320" r="192" fill="url(#wood)"/>
+      <path d="M-15 -70 L-18 264 M15 -70 L18 264" stroke="#6d4722" stroke-width="5" opacity=".5"/>
+    </g>
+    <path id="rubber" d="M-118 -195 A172 172 0 1 1 118 -195 Z"/>
+    <path id="shape" d="M-100 -175 Q-46 -125 -46 -70 L-54 235 Q-54 264 -26 264 L26 264 Q54 264 54 235 L46 -70 Q46 -125 100 -175 A192 192 0 1 0 -100 -175Z"/>
+    <path id="shine" d="M-138 -350 A142 142 0 0 1 -30 -458" fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round" opacity=".38"/>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <circle cx="270" cy="400" r="480" fill="url(#glowB)"/>
+  <circle cx="754" cy="400" r="480" fill="url(#glowR)"/>
+  <g transform="translate(512 645)">
+    <use xlink:href="#shape" transform="translate(0 22) rotate(42)" fill="#000" opacity=".35"/>
+    <g transform="rotate(42)"><use xlink:href="#wooden"/><use xlink:href="#rubber" fill="url(#red)"/><use xlink:href="#shine"/></g>
+    <use xlink:href="#shape" transform="translate(0 22) rotate(-42)" fill="#000" opacity=".35"/>
+    <g transform="rotate(-42)"><use xlink:href="#wooden"/><use xlink:href="#rubber" fill="url(#blue)"/><use xlink:href="#shine"/></g>
+  </g>
+  <circle cx="512" cy="232" r="84" fill="url(#ball)"/>
+</svg>

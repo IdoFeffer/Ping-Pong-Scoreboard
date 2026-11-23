@@ -45,7 +45,7 @@
   // Keys used in index.html (data-i18n / data-i18n-aria) must exist here.
   const TEXT = {
     he: {
-      title: 'לוח ניקוד פינג פונג',
+      title: 'Ping Pong Scoreboard',
       language: 'שפה',
       playTo: 'משחק עד',
       serveEvery: 'החלפת הגשה כל',
